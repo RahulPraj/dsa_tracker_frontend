@@ -1,0 +1,238 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html {
+    font-family: 'DM Sans', system-ui, sans-serif;
+    background: #080b0f;
+    color: #e6edf3;
+    -webkit-font-smoothing: antialiased;
+    scroll-behavior: smooth;
+  }
+
+  body { min-height: 100vh; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 99px; }
+  ::-webkit-scrollbar-thumb:hover { background: #484f58; }
+}
+
+@layer components {
+
+  /* ── Buttons ── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 font-display font-semibold
+           transition-all duration-150 cursor-pointer select-none;
+  }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-primary {
+    @apply btn bg-lime-400 text-surface-1 px-5 py-2.5 rounded-xl text-sm
+           hover:bg-lime-500 shadow-glow-sm hover:shadow-glow-lime;
+  }
+  .btn-ghost {
+    @apply btn border border-surface-5 text-ink-muted px-5 py-2.5 rounded-xl text-sm
+           hover:border-ink-dim hover:text-ink-base bg-surface-2;
+  }
+  .btn-danger {
+    @apply btn border border-red-500/30 text-red-400 px-3 py-1.5 rounded-lg text-xs
+           hover:bg-red-500/10 bg-transparent;
+  }
+  .btn-icon {
+    @apply btn w-9 h-9 rounded-xl border border-surface-5 text-ink-muted
+           hover:border-ink-dim hover:text-ink-base bg-surface-2;
+  }
+
+  /* ── Inputs ── */
+  .input {
+    @apply w-full bg-surface-2 border border-surface-5 text-ink-base rounded-xl
+           px-4 py-2.5 text-sm font-body outline-none transition-all duration-150
+           placeholder-ink-muted/50 focus:border-lime-400/60 focus:bg-surface-1
+           focus:shadow-[0_0_0_3px_rgba(181,242,61,0.08)];
+  }
+  .input-mono {
+    @apply input font-mono text-xs leading-relaxed;
+  }
+  .label {
+    @apply block text-xs font-display font-semibold text-ink-muted
+           uppercase tracking-[0.08em] mb-1.5;
+  }
+
+  /* ── Cards ── */
+  .card {
+    @apply bg-surface-1 border border-surface-3 rounded-2xl;
+  }
+  .card-inner {
+    @apply bg-surface-2 border border-surface-4 rounded-xl;
+  }
+
+  /* ── Badges ── */
+  .badge {
+    @apply inline-flex items-center font-mono font-semibold text-[11px]
+           px-2.5 py-0.5 rounded-lg tracking-wide;
+  }
+  .badge-easy   { @apply badge bg-emerald-500/10 text-emerald-400 border border-emerald-500/20; }
+  .badge-medium { @apply badge bg-amber-500/10   text-amber-400   border border-amber-500/20; }
+  .badge-hard   { @apply badge bg-red-500/10     text-red-400     border border-red-500/20; }
+  .badge-done   { @apply badge bg-lime-400/10    text-lime-400    border border-lime-400/20; }
+  .badge-pending{ @apply badge bg-surface-4      text-ink-muted   border border-surface-5; }
+
+  /* ── Section block in modal ── */
+  .section-block {
+    @apply bg-surface-2/60 border border-surface-4 rounded-2xl p-4 space-y-3;
+  }
+  .section-title {
+    @apply flex items-center gap-2 text-[11px] font-display font-bold
+           text-ink-muted uppercase tracking-[0.1em] pb-1
+           border-b border-surface-4 mb-3;
+  }
+}
+
+/* ── Noise texture overlay on bg ── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ── Table ── */
+.tbl-head th {
+  padding: 10px 14px;
+  text-align: left;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7d8590;
+  border-bottom: 1px solid #1c2330;
+  background: #0d1117;
+  white-space: nowrap;
+}
+.tbl-row td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #161b22;
+  vertical-align: middle;
+  color: #e6edf3;
+  transition: background 0.1s;
+}
+.tbl-row:last-child td { border-bottom: none; }
+.tbl-row:hover td { background: rgba(255,255,255,0.02); }
+
+/* ── Code viewer ── */
+.code-block {
+  background: #010409;
+  border: 1px solid #1c2330;
+  border-radius: 12px;
+  padding: 18px 20px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: #adbac7;
+  max-height: 380px;
+  overflow-y: auto;
+}
+
+/* ── Toggle switch ── */
+.toggle-track {
+  width: 36px; height: 20px;
+  border-radius: 99px;
+  position: relative;
+  transition: background 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  border: 1px solid transparent;
+  flex-shrink: 0;
+}
+.toggle-track.off { background: #21262d; border-color: #30363d; }
+.toggle-track.on  { background: #b5f23d; box-shadow: 0 0 10px rgba(181,242,61,0.3); }
+.toggle-thumb {
+  position: absolute;
+  top: 2px; width: 14px; height: 14px;
+  border-radius: 50%;
+  transition: left 0.2s cubic-bezier(0.34,1.56,0.64,1), background 0.2s;
+}
+.toggle-track.off .toggle-thumb { left: 3px; background: #484f58; }
+.toggle-track.on  .toggle-thumb { left: 18px; background: #0d1117; }
+
+/* ── Stat card shimmer ── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.stat-shimmer {
+  background: linear-gradient(90deg, #161b22 25%, #1c2330 50%, #161b22 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* ── Drop zone ── */
+.drop-zone {
+  border: 1.5px dashed #30363d;
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.drop-zone:hover, .drop-zone.dragging {
+  border-color: #b5f23d;
+  background: rgba(181,242,61,0.04);
+}
+
+/* ── Notion card ── */
+.notion-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: #161b22;
+  border: 1px solid #21262d;
+  border-radius: 14px;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+}
+.notion-card:hover {
+  border-color: #30363d;
+  background: #1c2330;
+}
+
+/* ── Overlay / modal ── */
+.overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: rgba(1,4,9,0.8);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+  overflow-y: auto;
+}
+
+/* ── Sidebar nav active ── */
+.nav-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; border-radius: 12px;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 13px; font-weight: 500;
+  color: #7d8590;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.nav-link:hover { color: #adbac7; background: #161b22; }
+.nav-link.active {
+  color: #b5f23d;
+  background: rgba(181,242,61,0.08);
+  border: 1px solid rgba(181,242,61,0.15);
+}
+.nav-link.active .nav-icon { color: #b5f23d; }
